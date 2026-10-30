@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TALLER.TCI: Fundamentos de redes y conectividad</title>
+<meta name="description" content="Cinco módulos con video y manual en PDF sobre topologías, cableado estructurado, routers y switches, redes inalámbricas y diagnóstico de red.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230E2433'/%3E%3Crect x='6' y='8' width='4' height='16' fill='%23E8821E'/%3E%3Crect x='12' y='8' width='4' height='16' fill='%232F9D63'/%3E%3Crect x='18' y='8' width='4' height='16' fill='%232D6CDF'/%3E%3Crect x='24' y='8' width='3' height='16' fill='%238B5E3C'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0E2433; --muted:#455B6B; --paper:#EEF2F5; --panel:#FFFFFF; --line:#D3DDE5;
+  --orange:#E8821E; --green:#2F9D63; --blue:#2D6CDF; --brown:#8B5E3C; --slate:#4F6272;
+  --display:'Bricolage Grotesque','Segoe UI',Arial,sans-serif;
+  --body:'IBM Plex Sans','Segoe UI',Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:5rem}
+body{
+  font-family:var(--body);color:var(--ink);line-height:1.6;
+  background-color:var(--paper);
+  background-image:radial-gradient(rgba(14,36,51,.09) 1px,transparent 1px);
+  background-size:22px 22px;
+}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1160px;margin:0 auto;padding:0 1.5rem}
+
+/* Cable de 8 hilos (T568B): motivo de la página */
+.cable{display:flex;height:10px}
+.cable i{flex:1}
+.cable i:nth-child(1){background:repeating-linear-gradient(135deg,var(--orange) 0 4px,#fff 4px 8px)}
+.cable i:nth-child(2){background:var(--orange)}
+.cable i:nth-child(3){background:repeating-linear-gradient(135deg,var(--green) 0 4px,#fff 4px 8px)}
+.cable i:nth-child(4){background:var(--blue)}
+.cable i:nth-child(5){background:repeating-linear-gradient(135deg,var(--blue) 0 4px,#fff 4px 8px)}
+.cable i:nth-child(6){background:var(--green)}
+.cable i:nth-child(7){background:repeating-linear-gradient(135deg,var(--brown) 0 4px,#fff 4px 8px)}
+.cable i:nth-child(8){background:var(--brown)}
+
+/* Navegación */
+.nav{position:sticky;top:0;z-index:50;background:rgba(238,242,245,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:1rem;height:64px}
+.brand{display:flex;align-items:center;gap:.6rem;font-family:var(--display);font-weight:800;font-size:1.2rem;text-decoration:none;letter-spacing:-.01em}
+.mark{display:flex;gap:2px;height:22px;align-items:stretch}
+.mark span{width:5px;border-radius:1px}
+.mark span:nth-child(1){background:var(--orange)}.mark span:nth-child(2){background:var(--green)}
+.mark span:nth-child(3){background:var(--blue)}.mark span:nth-child(4){background:var(--brown)}
+.nav-links{display:flex;align-items:center;gap:1.5rem;font-weight:500;font-size:.95rem}
+.nav-links a{text-decoration:none;color:var(--muted)}
+.nav-links a:hover{color:var(--ink);text-decoration:underline;text-underline-offset:4px}
+.backed{display:none;font-size:.82rem;color:var(--muted);border-left:1px solid var(--line);padding-left:1.5rem}
+@media(min-width:1040px){.backed{display:block}}
+
+/* Hero */
+.hero{padding:3.5rem 0 3rem}
+.hero .wrap{display:grid;gap:2.5rem;align-items:center}
+@media(min-width:900px){.hero .wrap{grid-template-columns:1.1fr .9fr}}
+.hero h1{font-family:var(--display);font-weight:800;font-size:clamp(2.4rem,5.4vw,4.2rem);line-height:1.04;letter-spacing:-.025em;margin-bottom:1.25rem}
+.hero p{font-size:1.15rem;color:var(--muted);max-width:34rem;margin-bottom:2rem}
+.actions{display:flex;flex-wrap:wrap;gap:.75rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:.7rem 1.25rem;border-radius:10px;font-weight:600;font-size:.95rem;text-decoration:none;border:2px solid var(--ink);background:var(--ink);color:#fff;transition:background .2s,color .2s}
+.btn:hover{background:#1b3a50}
+.btn.alt{background:transparent;color:var(--ink)}
+.btn.alt:hover{background:var(--ink);color:#fff}
+.topo{width:100%;height:auto;max-width:520px;justify-self:center}
+.topo .box{fill:#fff;stroke:var(--ink);stroke-width:2}
+.topo .wire{fill:none;stroke:var(--ink);stroke-width:2.5;stroke-linecap:round}
+.topo text{font-family:var(--body);font-size:13px;font-weight:600;fill:var(--ink);text-anchor:middle}
+.topo .wifi{fill:none;stroke:var(--blue);stroke-width:2.5;stroke-linecap:round}
+
+/* Módulos */
+.section-head{margin-bottom:2.5rem;max-width:40rem}
+.section-head h2{font-family:var(--display);font-weight:700;font-size:clamp(1.7rem,3.4vw,2.4rem);letter-spacing:-.02em;line-height:1.15;margin-bottom:.6rem}
+.section-head p{color:var(--muted)}
+.path{padding:3rem 0 2rem}
+.module{--wire:var(--orange);--next:var(--green);display:grid;grid-template-columns:36px 1fr;gap:0 14px;margin-bottom:1.5rem}
+.rail{position:relative;display:flex;justify-content:center}
+.node{width:36px;height:36px;border-radius:50%;background:var(--wire);color:#fff;font-family:var(--display);font-weight:800;display:grid;place-items:center;z-index:1}
+.module:not(:last-of-type) .rail::after{content:"";position:absolute;top:36px;bottom:-1.5rem;width:5px;border-radius:3px;background:linear-gradient(var(--wire),var(--next))}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:grid;box-shadow:0 1px 0 rgba(14,36,51,.04)}
+.thumb{position:relative;display:block;background:#000;aspect-ratio:16/9;overflow:hidden}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease}
+.thumb:hover img{transform:scale(1.04)}
+.play{position:absolute;inset:0;margin:auto;width:58px;height:58px;border-radius:50%;background:var(--wire);color:#fff;display:grid;place-items:center;box-shadow:0 0 0 6px rgba(255,255,255,.35)}
+.play svg{width:22px;height:22px;margin-left:3px}
+.info{padding:1.5rem;display:flex;flex-direction:column;gap:.75rem}
+.info h3{font-family:var(--display);font-weight:700;font-size:1.4rem;letter-spacing:-.01em;line-height:1.2}
+.info p{color:var(--muted);font-size:.98rem}
+.by{font-size:.88rem;color:var(--muted)}
+.by strong{color:var(--ink);font-weight:600}
+.info .actions{margin-top:auto;padding-top:.5rem}
+.info .btn{padding:.55rem 1.1rem;font-size:.9rem;border-radius:8px}
+@media(min-width:820px){
+  .module{grid-template-columns:44px 1fr;gap:0 22px}
+  .node{width:44px;height:44px;font-size:1.15rem}
+  .module:not(:last-of-type) .rail::after{top:44px}
+  .panel{grid-template-columns:5fr 6fr}
+  .thumb{aspect-ratio:auto;min-height:230px}
+}
+.m1{--wire:var(--orange);--next:var(--green)}
+.m2{--wire:var(--green);--next:var(--blue)}
+.m3{--wire:var(--blue);--next:var(--brown)}
+.m4{--wire:var(--brown);--next:var(--slate)}
+.m5{--wire:var(--slate)}
+
+/* Créditos */
+.credits{padding:2rem 0 4rem}
+.credit-list{list-style:none;display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.credit-list li{background:var(--panel);border:1px solid var(--line);border-top:4px solid var(--wire);border-radius:10px;padding:1rem 1.15rem;font-size:.92rem}
+.credit-list b{display:block;font-family:var(--display);font-size:1.02rem;margin-bottom:.35rem}
+.credit-list span{display:block;color:var(--muted)}
+.credit-list a{color:var(--ink);font-weight:500;text-underline-offset:3px}
+.note{margin-top:1.5rem;font-size:.9rem;color:var(--muted);max-width:44rem}
+
+footer{background:var(--ink);color:#B9C7D2;font-size:.9rem}
+footer .wrap{padding-top:1.75rem;padding-bottom:1.75rem}
+
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{transition:none!important}
+  .packet{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav" aria-label="Principal">
+  <div class="wrap">
+    <a class="brand" href="#inicio"><span class="mark" aria-hidden="true"><span></span><span></span><span></span><span></span></span>TALLER.TCI</a>
+    <div class="nav-links">
+      <a href="#modulos">Módulos</a>
+      <a href="#creditos">Créditos</a>
+      <span class="backed">Respaldados por Politécnico Pedro Abel Labarthe Durand</span>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="inicio">
+  <div class="wrap">
+    <div>
+      <h1>Fundamentos de redes, conectividad e infraestructura</h1>
+      <p>Aprende a diseñar, configurar y diagnosticar redes. Cinco módulos, cada uno con un video y un manual en PDF.</p>
+      <div class="actions">
+        <a class="btn" href="#modulo-1">Empezar por el módulo 1</a>
+        <a class="btn alt" href="#creditos">Ver créditos</a>
+      </div>
+    </div>
+
+    <svg class="topo" viewBox="0 0 520 420" role="img" aria-label="Diagrama de una red: internet, router, switch, dos computadoras y un punto de acceso inalámbrico">
+      <path id="pA" class="wire" d="M260 62V232"/>
+      <path id="pB" class="wire" d="M260 262L110 322"/>
+      <path id="pC" class="wire" d="M260 262V322"/>
+      <path id="pD" class="wire" d="M260 262L410 322"/>
+
+      <ellipse class="box" cx="260" cy="42" rx="62" ry="24"/>
+      <text x="260" y="47">Internet</text>
+      <rect class="box" x="200" y="108" width="120" height="48" rx="10"/>
+      <text x="260" y="137">Router</text>
+      <rect class="box" x="190" y="232" width="140" height="30" rx="8"/>
+      <text x="260" y="252">Switch</text>
+      <rect class="box" x="55" y="322" width="110" height="46" rx="8"/>
+      <text x="110" y="350">PC</text>
+      <rect class="box" x="205" y="322" width="110" height="46" rx="8"/>
+      <text x="260" y="350">Servidor</text>
+      <rect class="box" x="345" y="322" width="130" height="46" rx="8"/>
+      <text x="410" y="350">Punto de acceso</text>
+      <path class="wifi" d="M385 305q25-18 50 0"/>
+      <path class="wifi" d="M394 296q16-11 32 0"/>
+
+      <circle class="packet" r="5" fill="#E8821E"><animateMotion dur="3s" repeatCount="indefinite"><mpath href="#pA"/></animateMotion></circle>
+      <circle class="packet" r="5" fill="#2F9D63"><animateMotion dur="2.4s" begin="0.6s" repeatCount="indefinite"><mpath href="#pB"/></animateMotion></circle>
+      <circle class="packet" r="5" fill="#2D6CDF"><animateMotion dur="2s" begin="1.1s" repeatCount="indefinite"><mpath href="#pC"/></animateMotion></circle>
+      <circle class="packet" r="5" fill="#8B5E3C"><animateMotion dur="2.4s" begin="0.2s" repeatCount="indefinite"><mpath href="#pD"/></animateMotion></circle>
+    </svg>
+  </div>
+</header>
+
+<div class="cable" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+<main>
+  <section class="path" id="modulos">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Ruta de aprendizaje</h2>
+        <p>Sigue los módulos en orden: cada uno se apoya en el anterior, desde entender cómo se conecta una red hasta saber diagnosticarla.</p>
+      </div>
+
+      <article class="module m1" id="modulo-1">
+        <div class="rail"><div class="node" aria-hidden="true">1</div></div>
+        <div class="panel">
+          <a class="thumb" href="https://youtu.be/29nNOrqaSKg?si=FSbnN1zIuK1aMSsE" target="_blank" rel="noopener noreferrer" aria-label="Ver el video del módulo 1: Clases de redes y topologías">
+            <img src="https://img.youtube.com/vi/29nNOrqaSKg/hqdefault.jpg" alt="" width="480" height="360" loading="lazy">
+            <span class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l14 8-14 8z"/></svg></span>
+          </a>
+          <div class="info">
+            <h3>Clases de redes y topologías</h3>
+            <p>Identifica las clases de redes, sus topologías, los equipos de conexión y los medios físicos de transmisión.</p>
+            <p class="by">Video de <strong>EDUCATRONICOS ISC</strong></p>
+            <div class="actions">
+              <a class="btn" href="https://youtu.be/29nNOrqaSKg?si=FSbnN1zIuK1aMSsE" target="_blank" rel="noopener noreferrer">Ver video</a>
+              <a class="btn alt" href="https://elhacker.info/manuales/Redes/Redes%20paso%20a%20paso/Topologias%20de%20Red.pdf" target="_blank" rel="noopener noreferrer">Abrir manual PDF</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="module m2" id="modulo-2">
+        <div class="rail"><div class="node" aria-hidden="true">2</div></div>
+        <div class="panel">
+          <a class="thumb" href="https://youtu.be/e8eZ9Q-detI?si=7D7aJ83pMDO8QAUl" target="_blank" rel="noopener noreferrer" aria-label="Ver el video del módulo 2: Cableado estructurado UTP y RJ45">
+            <img src="https://img.youtube.com/vi/e8eZ9Q-detI/hqdefault.jpg" alt="" width="480" height="360" loading="lazy">
+            <span class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l14 8-14 8z"/></svg></span>
+          </a>
+          <div class="info">
+            <h3>Cableado estructurado UTP y RJ45</h3>
+            <p>Diseña e instala sistemas de cableado estructurado con cables UTP y conectores RJ45, siguiendo normas técnicas.</p>
+            <p class="by">Video de <strong>Paracuto Seguridad y Tecnologia</strong></p>
+            <div class="actions">
+              <a class="btn" href="https://youtu.be/e8eZ9Q-detI?si=7D7aJ83pMDO8QAUl" target="_blank" rel="noopener noreferrer">Ver video</a>
+              <a class="btn alt" href="https://www.gaestopas.com/resources/catalogo/documentos/C2_CABLEADO_ESTRUCTURADO.pdf" target="_blank" rel="noopener noreferrer">Abrir manual PDF</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="module m3" id="modulo-3">
+        <div class="rail"><div class="node" aria-hidden="true">3</div></div>
+        <div class="panel">
+          <a class="thumb" href="https://youtu.be/qm2dBAK5pFE?si=OkzV03yr0QXMJFRS" target="_blank" rel="noopener noreferrer" aria-label="Ver el video del módulo 3: Configuración de routers y switches">
+            <img src="https://img.youtube.com/vi/qm2dBAK5pFE/hqdefault.jpg" alt="" width="480" height="360" loading="lazy">
+            <span class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l14 8-14 8z"/></svg></span>
+          </a>
+          <div class="info">
+            <h3>Configuración de routers y switches</h3>
+            <p>Realiza la configuración inicial de los equipos activos para conectar redes locales y dar acceso a internet.</p>
+            <p class="by">Video de <strong>Eliezer De León</strong></p>
+            <div class="actions">
+              <a class="btn" href="https://youtu.be/qm2dBAK5pFE?si=OkzV03yr0QXMJFRS" target="_blank" rel="noopener noreferrer">Ver video</a>
+              <a class="btn alt" href="https://elhacker.info/manuales/Redes/Routers_y_Switches_CISCO,_USERS_Gilberto_Gonz%C3%A1lez_Rodr%C3%ADguez.pdf" target="_blank" rel="noopener noreferrer">Abrir manual PDF</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="module m4" id="modulo-4">
+        <div class="rail"><div class="node" aria-hidden="true">4</div></div>
+        <div class="panel">
+          <a class="thumb" href="https://youtu.be/vb1oUt1u_Lo?si=8g7nwDxYP0-uLqCa" target="_blank" rel="noopener noreferrer" aria-label="Ver el video del módulo 4: Redes inalámbricas y seguridad">
+            <img src="https://img.youtube.com/vi/vb1oUt1u_Lo/hqdefault.jpg" alt="" width="480" height="360" loading="lazy">
+            <span class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l14 8-14 8z"/></svg></span>
+          </a>
+          <div class="info">
+            <h3>Redes inalámbricas y seguridad</h3>
+            <p>Crea redes Wi-Fi protegidas con el nombre de red (SSID), el cifrado y el control de acceso por dirección MAC.</p>
+            <p class="by">Video de <strong>Comité ANUIES-TIC / Metared TIC</strong></p>
+            <div class="actions">
+              <a class="btn" href="https://youtu.be/vb1oUt1u_Lo?si=8g7nwDxYP0-uLqCa" target="_blank" rel="noopener noreferrer">Ver video</a>
+              <a class="btn alt" href="https://web-assets.esetstatic.com/wls/2014/01/documento_guia_de_wifi.pdf" target="_blank" rel="noopener noreferrer">Abrir manual PDF</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="module m5" id="modulo-5">
+        <div class="rail"><div class="node" aria-hidden="true">5</div></div>
+        <div class="panel">
+          <a class="thumb" href="https://youtu.be/4brm8Wc7Cqw?si=Tl9maDGZJQPSP55X" target="_blank" rel="noopener noreferrer" aria-label="Ver el video del módulo 5: Diagnóstico y pruebas de red">
+            <img src="https://img.youtube.com/vi/4brm8Wc7Cqw/hqdefault.jpg" alt="" width="480" height="360" loading="lazy">
+            <span class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l14 8-14 8z"/></svg></span>
+          </a>
+          <div class="info">
+            <h3>Diagnóstico y pruebas de red</h3>
+            <p>Evalúa el estado de una red: comprueba su conectividad y su velocidad con herramientas de diagnóstico.</p>
+            <p class="by">Video de <strong>Carlos Alberto Jiménez de la Cruz</strong></p>
+            <div class="actions">
+              <a class="btn" href="https://youtu.be/4brm8Wc7Cqw?si=Tl9maDGZJQPSP55X" target="_blank" rel="noopener noreferrer">Ver video</a>
+              <a class="btn alt" href="https://www.nacio.unlp.edu.ar/archivos/concursos/detectar-problemas-red-ordenadores-11684.pdf" target="_blank" rel="noopener noreferrer">Abrir manual PDF</a>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="credits" id="creditos">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Créditos</h2>
+        <p>Los videos y manuales se usan solo con fines educativos. Todo el crédito pertenece a sus autores e instituciones.</p>
+      </div>
+      <ul class="credit-list">
+        <li class="m1" style="--wire:var(--orange)"><b>Módulo 1: Clases de redes y topologías</b>
+          <span>Video: <a href="https://youtu.be/29nNOrqaSKg?si=FSbnN1zIuK1aMSsE" target="_blank" rel="noopener noreferrer">EDUCATRONICOS ISC</a></span>
+          <span>Manual: <a href="https://elhacker.info/manuales/Redes/Redes%20paso%20a%20paso/Topologias%20de%20Red.pdf" target="_blank" rel="noopener noreferrer">Topologías de red (elhacker.info)</a></span></li>
+        <li style="--wire:var(--green)"><b>Módulo 2: Cableado estructurado UTP y RJ45</b>
+          <span>Video: <a href="https://youtu.be/e8eZ9Q-detI?si=7D7aJ83pMDO8QAUl" target="_blank" rel="noopener noreferrer">Paracuto Seguridad y Tecnologia</a></span>
+          <span>Manual: <a href="https://www.gaestopas.com/resources/catalogo/documentos/C2_CABLEADO_ESTRUCTURADO.pdf" target="_blank" rel="noopener noreferrer">Cableado estructurado (Gaestopas)</a></span></li>
+        <li style="--wire:var(--blue)"><b>Módulo 3: Configuración de routers y switches</b>
+          <span>Video: <a href="https://youtu.be/qm2dBAK5pFE?si=OkzV03yr0QXMJFRS" target="_blank" rel="noopener noreferrer">Eliezer De León</a></span>
+          <span>Manual: <a href="https://elhacker.info/manuales/Redes/Routers_y_Switches_CISCO,_USERS_Gilberto_Gonz%C3%A1lez_Rodr%C3%ADguez.pdf" target="_blank" rel="noopener noreferrer">Routers y switches Cisco, Gilberto González Rodríguez (USERS)</a></span></li>
+        <li style="--wire:var(--brown)"><b>Módulo 4: Redes inalámbricas y seguridad</b>
+          <span>Video: <a href="https://youtu.be/vb1oUt1u_Lo?si=8g7nwDxYP0-uLqCa" target="_blank" rel="noopener noreferrer">Comité ANUIES-TIC / Metared TIC México</a></span>
+          <span>Manual: <a href="https://web-assets.esetstatic.com/wls/2014/01/documento_guia_de_wifi.pdf" target="_blank" rel="noopener noreferrer">Guía de Wi-Fi (ESET)</a></span></li>
+        <li style="--wire:var(--slate)"><b>Módulo 5: Diagnóstico y pruebas de red</b>
+          <span>Video: <a href="https://youtu.be/4brm8Wc7Cqw?si=Tl9maDGZJQPSP55X" target="_blank" rel="noopener noreferrer">Carlos Alberto Jiménez de la Cruz</a></span>
+          <span>Manual: <a href="https://www.nacio.unlp.edu.ar/archivos/concursos/detectar-problemas-red-ordenadores-11684.pdf" target="_blank" rel="noopener noreferrer">Detectar problemas de red (UNLP)</a></span></li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<div class="cable" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+<footer>
+  <div class="wrap">© 2026 TALLER.TCI. Respaldados por Politécnico Pedro Abel Labarthe Durand.</div>
+</footer>
+
+</body>
+</html>
