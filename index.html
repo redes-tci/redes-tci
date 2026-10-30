@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --ink:#0E2433; --muted:#455B6B; --paper:#EEF2F5; --panel:#FFFFFF; --line:#D3DDE5;
+  --ink:#0E2433; --muted:#455B6B; --paper:#EEF2F5; --panel:rgba(255,255,255,0.88); --line:#D3DDE5;
   --orange:#E8821E; --green:#2F9D63; --blue:#2D6CDF; --brown:#8B5E3C; --slate:#4F6272;
   --display:'Bricolage Grotesque','Segoe UI',Arial,sans-serif;
   --body:'IBM Plex Sans','Segoe UI',Arial,sans-serif;
@@ -23,6 +23,7 @@ body{
   background-color:var(--paper);
   background-image:radial-gradient(rgba(14,36,51,.09) 1px,transparent 1px);
   background-size:22px 22px;
+  min-height:100vh;
 }
 a{color:inherit}
 :focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:4px}
@@ -80,7 +81,7 @@ a{color:inherit}
 .rail{position:relative;display:flex;justify-content:center}
 .node{width:36px;height:36px;border-radius:50%;background:var(--wire);color:#fff;font-family:var(--display);font-weight:800;display:grid;place-items:center;z-index:1}
 .module:not(:last-of-type) .rail::after{content:"";position:absolute;top:36px;bottom:-1.5rem;width:5px;border-radius:3px;background:linear-gradient(var(--wire),var(--next))}
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:grid;box-shadow:0 1px 0 rgba(14,36,51,.04)}
+.panel{background:var(--panel);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:grid;box-shadow:0 4px 15px rgba(14,36,51,.05)}
 .thumb{position:relative;display:block;background:#000;aspect-ratio:16/9;overflow:hidden}
 .thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease}
 .thumb:hover img{transform:scale(1.04)}
@@ -109,11 +110,10 @@ a{color:inherit}
 /* Créditos */
 .credits{padding:2rem 0 4rem}
 .credit-list{list-style:none;display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
-.credit-list li{background:var(--panel);border:1px solid var(--line);border-top:4px solid var(--wire);border-radius:10px;padding:1rem 1.15rem;font-size:.92rem}
+.credit-list li{background:var(--panel);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--line);border-top:4px solid var(--wire);border-radius:10px;padding:1rem 1.15rem;font-size:.92rem}
 .credit-list b{display:block;font-family:var(--display);font-size:1.02rem;margin-bottom:.35rem}
 .credit-list span{display:block;color:var(--muted)}
 .credit-list a{color:var(--ink);font-weight:500;text-underline-offset:3px}
-.note{margin-top:1.5rem;font-size:.9rem;color:var(--muted);max-width:44rem}
 
 footer{background:var(--ink);color:#B9C7D2;font-size:.9rem}
 footer .wrap{padding-top:1.75rem;padding-bottom:1.75rem}
@@ -201,7 +201,7 @@ footer .wrap{padding-top:1.75rem;padding-bottom:1.75rem}
             <p class="by">Video de <strong>EDUCATRONICOS ISC</strong></p>
             <div class="actions">
               <a class="btn" href="https://youtu.be/29nNOrqaSKg?si=FSbnN1zIuK1aMSsE" target="_blank" rel="noopener noreferrer">Ver video</a>
-              <a class="btn alt" href="https://elhacker.info/manuales/Redes/Redes%20paso%20a%20paso/Topologias%20de%20Red.pdf" target="_blank" rel="noopener noreferrer">Abrir manual PDF</a>
+              <a class="btn alt" href="https://dmd.unadmexico.mx/contenidos/DCEIT/BLOQUE2/DS/05/DFDR/U1/descargables/DFDR_U1_Contenido.pdf" target="_blank" rel="noopener noreferrer">Abrir manual PDF</a>
             </div>
           </div>
         </div>
@@ -239,7 +239,7 @@ footer .wrap{padding-top:1.75rem;padding-bottom:1.75rem}
             <p class="by">Video de <strong>Eliezer De León</strong></p>
             <div class="actions">
               <a class="btn" href="https://youtu.be/qm2dBAK5pFE?si=OkzV03yr0QXMJFRS" target="_blank" rel="noopener noreferrer">Ver video</a>
-              <a class="btn alt" href="https://elhacker.info/manuales/Redes/Routers_y_Switches_CISCO,_USERS_Gilberto_Gonz%C3%A1lez_Rodr%C3%ADguez.pdf" target="_blank" rel="noopener noreferrer">Abrir manual PDF</a>
+              <a class="btn alt" href="https://www.incibe.es/sites/default/files/contenidos/guias/doc/guia-de-seguridad-en-redes-wifi.pdf" target="_blank" rel="noopener noreferrer">Abrir manual PDF</a>
             </div>
           </div>
         </div>
@@ -277,7 +277,7 @@ footer .wrap{padding-top:1.75rem;padding-bottom:1.75rem}
             <p class="by">Video de <strong>Carlos Alberto Jiménez de la Cruz</strong></p>
             <div class="actions">
               <a class="btn" href="https://youtu.be/4brm8Wc7Cqw?si=Tl9maDGZJQPSP55X" target="_blank" rel="noopener noreferrer">Ver video</a>
-              <a class="btn alt" href="https://www.nacio.unlp.edu.ar/archivos/concursos/detectar-problemas-red-ordenadores-11684.pdf" target="_blank" rel="noopener noreferrer">Abrir manual PDF</a>
+              <a class="btn alt" href="https://itq.edu.ec/wp-content/uploads/2025/02/ITQ-24-GP1-DS-04-Guia-general-de-redes-y-comunicacion-de-datos.pdf" target="_blank" rel="noopener noreferrer">Abrir manual PDF</a>
             </div>
           </div>
         </div>
@@ -294,19 +294,19 @@ footer .wrap{padding-top:1.75rem;padding-bottom:1.75rem}
       <ul class="credit-list">
         <li class="m1" style="--wire:var(--orange)"><b>Módulo 1: Clases de redes y topologías</b>
           <span>Video: <a href="https://youtu.be/29nNOrqaSKg?si=FSbnN1zIuK1aMSsE" target="_blank" rel="noopener noreferrer">EDUCATRONICOS ISC</a></span>
-          <span>Manual: <a href="https://elhacker.info/manuales/Redes/Redes%20paso%20a%20paso/Topologias%20de%20Red.pdf" target="_blank" rel="noopener noreferrer">Topologías de red (elhacker.info)</a></span></li>
+          <span>Manual: <a href="https://dmd.unadmexico.mx/contenidos/DCEIT/BLOQUE2/DS/05/DFDR/U1/descargables/DFDR_U1_Contenido.pdf" target="_blank" rel="noopener noreferrer">Contenido de redes (UnADM)</a></span></li>
         <li style="--wire:var(--green)"><b>Módulo 2: Cableado estructurado UTP y RJ45</b>
           <span>Video: <a href="https://youtu.be/e8eZ9Q-detI?si=7D7aJ83pMDO8QAUl" target="_blank" rel="noopener noreferrer">Paracuto Seguridad y Tecnologia</a></span>
           <span>Manual: <a href="https://www.gaestopas.com/resources/catalogo/documentos/C2_CABLEADO_ESTRUCTURADO.pdf" target="_blank" rel="noopener noreferrer">Cableado estructurado (Gaestopas)</a></span></li>
         <li style="--wire:var(--blue)"><b>Módulo 3: Configuración de routers y switches</b>
           <span>Video: <a href="https://youtu.be/qm2dBAK5pFE?si=OkzV03yr0QXMJFRS" target="_blank" rel="noopener noreferrer">Eliezer De León</a></span>
-          <span>Manual: <a href="https://elhacker.info/manuales/Redes/Routers_y_Switches_CISCO,_USERS_Gilberto_Gonz%C3%A1lez_Rodr%C3%ADguez.pdf" target="_blank" rel="noopener noreferrer">Routers y switches Cisco, Gilberto González Rodríguez (USERS)</a></span></li>
+          <span>Manual: <a href="https://www.incibe.es/sites/default/files/contenidos/guias/doc/guia-de-seguridad-en-redes-wifi.pdf" target="_blank" rel="noopener noreferrer">Guía de seguridad en redes Wi-Fi (INCIBE)</a></span></li>
         <li style="--wire:var(--brown)"><b>Módulo 4: Redes inalámbricas y seguridad</b>
           <span>Video: <a href="https://youtu.be/vb1oUt1u_Lo?si=8g7nwDxYP0-uLqCa" target="_blank" rel="noopener noreferrer">Comité ANUIES-TIC / Metared TIC México</a></span>
           <span>Manual: <a href="https://web-assets.esetstatic.com/wls/2014/01/documento_guia_de_wifi.pdf" target="_blank" rel="noopener noreferrer">Guía de Wi-Fi (ESET)</a></span></li>
         <li style="--wire:var(--slate)"><b>Módulo 5: Diagnóstico y pruebas de red</b>
           <span>Video: <a href="https://youtu.be/4brm8Wc7Cqw?si=Tl9maDGZJQPSP55X" target="_blank" rel="noopener noreferrer">Carlos Alberto Jiménez de la Cruz</a></span>
-          <span>Manual: <a href="https://www.nacio.unlp.edu.ar/archivos/concursos/detectar-problemas-red-ordenadores-11684.pdf" target="_blank" rel="noopener noreferrer">Detectar problemas de red (UNLP)</a></span></li>
+          <span>Manual: <a href="https://itq.edu.ec/wp-content/uploads/2025/02/ITQ-24-GP1-DS-04-Guia-general-de-redes-y-comunicacion-de-datos.pdf" target="_blank" rel="noopener noreferrer">Guía general de redes y comunicación de datos (ITQ)</a></span></li>
       </ul>
     </div>
   </section>
